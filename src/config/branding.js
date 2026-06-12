@@ -42,7 +42,7 @@ export const branding = {
     body: 'Inter, sans-serif',
   },
   seo: {
-    siteUrl: 'https://corpusiq.in', // update when deployed
+    siteUrl: 'https://corpusiq.netlify.app', // update when deployed
     ogImage: '/og-image.png', // drop a 1200×630 image in /public
   },
   footer: {

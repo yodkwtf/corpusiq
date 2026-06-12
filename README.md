@@ -1,16 +1,37 @@
-# React + Vite
+# CorpusIQ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Understand your retirement future in 3 minutes. Turn your NPS, PF and mutual fund numbers into a plain-language story — free, private, no sign-up.
 
-Currently, two official plugins are available:
+**Live:** https://corpusiq.netlify.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![CorpusIQ screenshot](./public/og-image.png)
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Takes your current age, retirement age, and investment balances (NPS / PF / Mutual Funds)
+- Projects your corpus, monthly retirement income, and how long the money lasts
+- Shows milestones, health score, peer comparison, FIRE check, and what-if scenarios
+- Everything runs in the browser — nothing is sent to a server
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React + Vite
+- Tailwind CSS
+- Framer Motion
+- All calculations in `src/utils/calculations.js`
+
+## Local setup
+
+```bash
+npm install
+npm run dev
+```
+
+## Contributing
+
+PRs welcome. A few things to know:
+
+- All financial logic is in `src/utils/calculations.js` - that's the most critical file to get right
+- `src/context/plannerState.js` holds the default state shape and validation
+- Components are in `src/components/`, pages in `src/pages/`
+- No backend, no auth, no tracking — keep it that way
