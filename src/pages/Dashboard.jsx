@@ -1,33 +1,43 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Pencil, RotateCcw, Printer, FlaskConical, Sparkles } from "lucide-react";
-import { usePlanner, hasAnyInvestment, validateProfile } from "../context/PlannerContext";
-import { branding } from "../config/branding";
-import { formatINRFull } from "../utils/formatters";
-import ErrorBoundary from "../components/shared/ErrorBoundary";
-import ConfirmDialog from "../components/shared/ConfirmDialog";
-import { SkeletonDashboard } from "../components/shared/Skeleton";
-import { HowItWorksPanel } from "../components/shared/HowItWorksContent";
-import TopSummaryCard from "../components/dashboard/TopSummaryCard";
-import RetirementIncomeCard from "../components/dashboard/RetirementIncomeCard";
-import NPSBreakdownCard from "../components/dashboard/NPSBreakdownCard";
-import SurvivalCard from "../components/dashboard/SurvivalCard";
-import MilestonesTimeline from "../components/dashboard/MilestonesTimeline";
-import EmotionalMetricsCard from "../components/dashboard/EmotionalMetricsCard";
-import HealthScoreCard from "../components/dashboard/HealthScoreCard";
-import PeerComparisonCard from "../components/dashboard/PeerComparisonCard";
-import FIRECard from "../components/dashboard/FIRECard";
-import InflationCard from "../components/dashboard/InflationCard";
-import WhatIfExplorer from "../components/dashboard/WhatIfExplorer";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import {
+  Pencil,
+  RotateCcw,
+  Printer,
+  FlaskConical,
+  Sparkles,
+} from 'lucide-react';
+import {
+  usePlanner,
+  hasAnyInvestment,
+  validateProfile,
+} from '../context/PlannerContext';
+import { branding } from '../config/branding';
+import { formatINRFull } from '../utils/formatters';
+import ErrorBoundary from '../components/shared/ErrorBoundary';
+import ConfirmDialog from '../components/shared/ConfirmDialog';
+import { SkeletonDashboard } from '../components/shared/Skeleton';
+import { HowItWorksPanel } from '../components/shared/HowItWorksContent';
+import TopSummaryCard from '../components/dashboard/TopSummaryCard';
+import RetirementIncomeCard from '../components/dashboard/RetirementIncomeCard';
+import NPSBreakdownCard from '../components/dashboard/NPSBreakdownCard';
+import SurvivalCard from '../components/dashboard/SurvivalCard';
+import MilestonesTimeline from '../components/dashboard/MilestonesTimeline';
+import EmotionalMetricsCard from '../components/dashboard/EmotionalMetricsCard';
+import HealthScoreCard from '../components/dashboard/HealthScoreCard';
+import PeerComparisonCard from '../components/dashboard/PeerComparisonCard';
+import FIRECard from '../components/dashboard/FIRECard';
+import InflationCard from '../components/dashboard/InflationCard';
+import WhatIfExplorer from '../components/dashboard/WhatIfExplorer';
 
 const SECTIONS = [
-  { id: "summary", label: "Summary" },
-  { id: "income", label: "Income" },
-  { id: "milestones", label: "Journey" },
-  { id: "health", label: "Health" },
-  { id: "fire", label: "FI Check" },
-  { id: "whatif", label: "What If" },
+  { id: 'summary', label: 'Summary' },
+  { id: 'income', label: 'Income' },
+  { id: 'milestones', label: 'Journey' },
+  { id: 'health', label: 'Health' },
+  { id: 'fire', label: 'FI Check' },
+  { id: 'whatif', label: 'What If' },
 ];
 
 export default function Dashboard() {
@@ -45,7 +55,7 @@ export default function Dashboard() {
   // Guard: profile not filled in yet → send to input flow.
   const profileInvalid = Object.keys(validateProfile(state.profile)).length > 0;
   useEffect(() => {
-    if (profileInvalid) navigate("/plan", { replace: true });
+    if (profileInvalid) navigate('/plan', { replace: true });
   }, [profileInvalid, navigate]);
   if (profileInvalid) return null;
 
@@ -55,8 +65,8 @@ export default function Dashboard() {
     Number(state.investments.nps.monthlyContribution) > 0;
 
   const handleReset = () => {
-    dispatch({ type: "RESET" });
-    navigate("/");
+    dispatch({ type: 'RESET' });
+    navigate('/');
   };
 
   if (!ready) return <SkeletonDashboard />;
@@ -74,7 +84,9 @@ export default function Dashboard() {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold sm:text-2xl">
-            {projection.alreadyRetired ? "Your post-retirement picture" : "Your retirement story"}
+            {projection.alreadyRetired
+              ? 'Your post-retirement picture'
+              : 'Your retirement story'}
           </h1>
           <p className="mt-0.5 text-sm text-text-secondary dark:text-text-secondary-dark">
             {projection.alreadyRetired
@@ -83,13 +95,23 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="print-hide flex flex-wrap gap-2">
-          <ActionButton onClick={() => { dispatch({ type: "SET_STEP", step: 0 }); navigate("/plan"); }} icon={Pencil}>
+          <ActionButton
+            onClick={() => {
+              dispatch({ type: 'SET_STEP', step: 0 });
+              navigate('/plan');
+            }}
+            icon={Pencil}
+          >
             Edit inputs
           </ActionButton>
           <ActionButton onClick={() => window.print()} icon={Printer}>
             Print summary
           </ActionButton>
-          <ActionButton onClick={() => setConfirmReset(true)} icon={RotateCcw} tone="danger">
+          <ActionButton
+            onClick={() => setConfirmReset(true)}
+            icon={RotateCcw}
+            tone="danger"
+          >
             Start over
           </ActionButton>
         </div>
@@ -130,10 +152,13 @@ export default function Dashboard() {
           >
             {/* Print-only header */}
             <div className="hidden print:block">
-              <h2 className="text-lg font-bold">{branding.appName} - Retirement Summary</h2>
+              <h2 className="text-lg font-bold">
+                {branding.appName} - Retirement Summary
+              </h2>
               <p className="text-xs">
-                Generated for age {projection.currentAge}, retiring at {projection.retirementAge}.
-                Total invested to date: {formatINRFull(projection.currentTotalValue)}.
+                Generated for age {projection.currentAge}, retiring at{' '}
+                {projection.retirementAge}. Total invested to date:{' '}
+                {formatINRFull(projection.currentTotalValue)}.
               </p>
             </div>
 
@@ -197,15 +222,15 @@ export default function Dashboard() {
   );
 }
 
-function ActionButton({ onClick, icon: Icon, tone = "default", children }) {
+function ActionButton({ onClick, icon: Icon, tone = 'default', children }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={
-        tone === "danger"
-          ? "inline-flex items-center gap-1.5 rounded-full border border-risk-200 bg-surface/60 px-4 py-2 text-sm font-semibold text-risk-600 backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-risk-50 dark:border-risk-800 dark:bg-surface-dark/60 dark:text-risk-300 dark:hover:bg-risk-900/30"
-          : "btn-outline"
+        tone === 'danger'
+          ? 'inline-flex items-center gap-1.5 rounded-full border border-risk-200 bg-surface/60 px-4 py-2 text-sm font-semibold text-risk-600 backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-risk-50 dark:border-risk-800 dark:bg-surface-dark/60 dark:text-risk-300 dark:hover:bg-risk-900/30'
+          : 'btn-outline'
       }
     >
       <Icon size={15} aria-hidden="true" />
@@ -215,23 +240,71 @@ function ActionButton({ onClick, icon: Icon, tone = "default", children }) {
 }
 
 function EmptyState() {
+  const { dispatch } = usePlanner();
+  const navigate = useNavigate();
+
+  const handleAddInvestment = () => {
+    dispatch({ type: 'SET_STEP', step: 1 });
+    navigate('/plan');
+  };
+
+  // Illustrative SIP growth: ₹1000/month at 12% annual return
+  const DEMO = [
+    { years: 10, invested: '₹1.2L', grown: '₹2.3L' },
+    { years: 20, invested: '₹2.4L', grown: '₹9.9L' },
+    { years: 30, invested: '₹3.6L', grown: '₹35L' },
+  ];
+
   return (
-    <div className="mx-auto max-w-lg rounded-2xl bg-surface p-10 text-center shadow-card dark:bg-surface-dark">
-      <Sparkles className="mx-auto mb-4 text-secondary" size={36} aria-hidden="true" />
-      <h2 className="text-xl font-bold">Your journey starts here</h2>
-      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
-        You haven't added any investments yet, and that's exactly where everyone starts.
-        Even ₹500 a month, started today, grows into something real. Add your first
-        number and watch what compounding does with it.
-      </p>
-      <Link to="/plan" className="btn-primary mt-6">
-        Add my first investment
-      </Link>
+    <div className="mx-auto max-w-xl">
+      <div className="rounded-2xl bg-surface p-8 text-center shadow-card dark:bg-surface-dark sm:p-10">
+        <Sparkles
+          className="mx-auto mb-4 text-secondary"
+          size={36}
+          aria-hidden="true"
+        />
+        <h2 className="text-xl font-bold">Your journey starts here</h2>
+        <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
+          You haven't added any investments yet, and that's exactly where
+          everyone starts. See what even ₹1,000 a month does over time:
+        </p>
+
+        {/* Compounding preview */}
+        <div className="mt-6 grid grid-cols-3 divide-x divide-ink-100 rounded-xl bg-gradient-to-br from-primary/5 to-brand/5 dark:divide-ink-700">
+          {DEMO.map(({ years, invested, grown }) => (
+            <div
+              key={years}
+              className="flex flex-col items-center gap-0.5 py-4"
+            >
+              <span className="text-xs font-medium text-text-secondary dark:text-text-secondary-dark">
+                {years} yrs
+              </span>
+              <span className="text-lg font-extrabold text-primary tabular-nums">
+                {grown}
+              </span>
+              <span className="text-[11px] text-text-secondary dark:text-text-secondary-dark">
+                from {invested}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-2 text-[11px] text-text-secondary dark:text-text-secondary-dark">
+          ₹1,000/month · 12% assumed return · illustrative only
+        </p>
+
+        <button
+          type="button"
+          onClick={handleAddInvestment}
+          className="btn-primary mt-6"
+        >
+          Add my first investment
+        </button>
+      </div>
     </div>
   );
 }
 
 /** Renders nothing - exists so a null projection trips the ErrorBoundary fallback. */
 function ThrowProjectionError() {
-  throw new Error("Projection failed");
+  throw new Error('Projection failed');
 }

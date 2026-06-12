@@ -17,19 +17,20 @@ export function Navbar() {
         <Link to="/" aria-label={`${branding.appName} home`} className="text-text-primary dark:text-text-primary-dark">
           <Logo />
         </Link>
-        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-3">
+        <nav aria-label="Main" className="flex items-center gap-1 sm:gap-2">
           <Link
             to="/how-it-works"
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 ${
+            className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
               location.pathname === "/how-it-works" ? "text-primary" : ""
             }`}
           >
-            How It Works
+            <span className="hidden sm:inline">How It Works</span>
+            <span className="sm:hidden">Guide</span>
           </Link>
           {state.ui.hasResults && (
             <Link
               to="/dashboard"
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 ${
+              className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
                 location.pathname === "/dashboard" ? "text-primary" : ""
               }`}
             >
@@ -54,36 +55,75 @@ export function Footer() {
   const socials = Object.entries(branding.social).filter(([, url]) => url);
 
   return (
-    <footer className="print-hide mt-12 border-t border-ink-100 bg-surface py-8 dark:border-ink-800 dark:bg-surface-dark">
-      <div className="mx-auto max-w-6xl space-y-4 px-4 text-sm text-text-secondary dark:text-text-secondary-dark">
-        <p className="max-w-3xl leading-relaxed">{branding.footer.disclaimer}</p>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {branding.footer.links.map((link) => (
-            <Link key={link.href} to={link.href} className="font-medium hover:text-primary">
-              {link.label}
+    <footer className="print-hide mt-12 border-t border-ink-100 bg-surface dark:border-ink-800 dark:bg-surface-dark">
+      <div className="mx-auto max-w-6xl px-4">
+        {/* Main row */}
+        <div className="flex flex-col gap-8 py-10 sm:flex-row sm:items-start sm:justify-between">
+          {/* Brand side */}
+          <div className="max-w-xs space-y-2">
+            <Link to="/" aria-label={`${branding.appName} home`} className="text-text-primary dark:text-text-primary-dark">
+              <Logo />
             </Link>
-          ))}
-          <a
-            href={`mailto:${branding.footer.contactEmail}`}
-            className="inline-flex items-center gap-1.5 font-medium hover:text-primary"
-          >
-            <Mail size={14} aria-hidden="true" />
-            {branding.footer.contactEmail}
-          </a>
-          {socials.map(([key, url]) => (
-            <a
-              key={key}
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 font-medium hover:text-primary"
-            >
-              {SOCIAL_LABELS[key] || key}
-              <ExternalLink size={12} aria-hidden="true" />
-            </a>
-          ))}
+            <p className="text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
+              {branding.tagline}
+            </p>
+          </div>
+
+          {/* Links side */}
+          <div className="flex flex-wrap gap-x-10 gap-y-6">
+            {branding.footer.links.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
+                  Product
+                </p>
+                {branding.footer.links.map((link) => (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="block text-sm font-medium text-primary underline-offset-2 hover:underline dark:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
+                Contact
+              </p>
+              <a
+                href={`mailto:${branding.footer.contactEmail}`}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-2 hover:underline dark:text-primary"
+              >
+                <Mail size={13} aria-hidden="true" />
+                {branding.footer.contactEmail}
+              </a>
+              {socials.map(([key, url]) => (
+                <a
+                  key={key}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
+                >
+                  {SOCIAL_LABELS[key] || key}
+                  <ExternalLink size={11} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        <p className="text-xs">{branding.footer.copyrightText}</p>
+
+        {/* Bottom bar */}
+        <div className="border-t border-ink-100 py-5 dark:border-ink-800">
+          <p className="mb-2 text-xs leading-relaxed text-text-secondary dark:text-text-secondary-dark">
+            {branding.footer.disclaimer}
+          </p>
+          <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
+            © {new Date().getFullYear()} {branding.appName}. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
