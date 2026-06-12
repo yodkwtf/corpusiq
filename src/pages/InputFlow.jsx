@@ -1,32 +1,60 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Landmark, PiggyBank, LineChart, Sparkles } from "lucide-react";
-import AboutYouForm from "../components/forms/AboutYouForm";
-import InvestmentCard from "../components/forms/InvestmentCard";
-import AdvancedSettings from "../components/forms/AdvancedSettings";
-import { usePlanner, validateProfile, hasAnyInvestment } from "../context/PlannerContext";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSEO } from '../utils/seo';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Landmark,
+  PiggyBank,
+  LineChart,
+  Sparkles,
+} from 'lucide-react';
+import AboutYouForm from '../components/forms/AboutYouForm';
+import InvestmentCard from '../components/forms/InvestmentCard';
+import AdvancedSettings from '../components/forms/AdvancedSettings';
+import {
+  usePlanner,
+  validateProfile,
+  hasAnyInvestment,
+} from '../context/PlannerContext';
 
 const STEPS = [
-  { title: "About you", subtitle: "Two ages and an optional income. That's all we need." },
-  { title: "Your investments", subtitle: "Enter what you have today. Zero is a fine answer." },
-  { title: "Fine-tune (optional)", subtitle: "Industry-standard assumptions. Adjust if you like, or just continue." },
+  {
+    title: 'About you',
+    subtitle: "Two ages and an optional income. That's all we need.",
+  },
+  {
+    title: 'Your investments',
+    subtitle: 'Enter what you have today. Zero is a fine answer.',
+  },
+  {
+    title: 'Fine-tune (optional)',
+    subtitle:
+      'Industry-standard assumptions. Adjust if you like, or just continue.',
+  },
 ];
 
 const slide = {
   initial: { opacity: 0, x: 32 },
   animate: { opacity: 1, x: 0 },
   exit: { opacity: 0, x: -32 },
-  transition: { duration: 0.25, ease: "easeOut" },
+  transition: { duration: 0.25, ease: 'easeOut' },
 };
 
 export default function InputFlow() {
   const { state, dispatch } = usePlanner();
   const navigate = useNavigate();
   const step = state.ui.inputStep;
+  useSEO({
+    title: 'Build Your Plan',
+    description:
+      'Enter your age, income and investments to get a personalized retirement projection in under 3 minutes.',
+    path: '/plan',
+  });
   const [errors, setErrors] = useState({});
 
-  const goTo = (next) => dispatch({ type: "SET_STEP", step: next });
+  const goTo = (next) => dispatch({ type: 'SET_STEP', step: next });
 
   const handleNext = () => {
     if (step === 0) {
@@ -37,8 +65,8 @@ export default function InputFlow() {
     if (step < 2) {
       goTo(step + 1);
     } else {
-      dispatch({ type: "MARK_RESULTS" });
-      navigate("/dashboard");
+      dispatch({ type: 'MARK_RESULTS' });
+      navigate('/dashboard');
     }
   };
 
@@ -55,15 +83,17 @@ export default function InputFlow() {
                 type="button"
                 onClick={() => i < step && goTo(i)}
                 disabled={i > step}
-                aria-current={i === step ? "step" : undefined}
+                aria-current={i === step ? 'step' : undefined}
                 className={`h-1.5 w-full rounded-full transition-colors ${
-                  i <= step ? "bg-primary" : "bg-ink-200 dark:bg-ink-700"
-                } ${i < step ? "cursor-pointer" : ""}`}
+                  i <= step ? 'bg-primary' : 'bg-ink-200 dark:bg-ink-700'
+                } ${i < step ? 'cursor-pointer' : ''}`}
                 aria-label={`Step ${i + 1}: ${s.title}`}
               />
               <span
                 className={`hidden text-xs font-medium sm:block ${
-                  i === step ? "text-primary" : "text-text-secondary dark:text-text-secondary-dark"
+                  i === step
+                    ? 'text-primary'
+                    : 'text-text-secondary dark:text-text-secondary-dark'
                 }`}
               >
                 {s.title}
@@ -113,8 +143,13 @@ export default function InputFlow() {
 
           {noInvestments && (
             <p className="mt-4 flex items-start gap-2 rounded-xl bg-accent-50 p-3 text-sm text-accent-800 dark:bg-accent-900/40 dark:text-accent-200">
-              <Sparkles size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
-              No investments yet? No problem. Continue anyway and we'll show you what starting today could look like.
+              <Sparkles
+                size={16}
+                className="mt-0.5 shrink-0"
+                aria-hidden="true"
+              />
+              No investments yet? No problem. Continue anyway and we'll show you
+              what starting today could look like.
             </p>
           )}
         </motion.div>
@@ -124,14 +159,14 @@ export default function InputFlow() {
       <div className="mt-8 flex items-center justify-between">
         <button
           type="button"
-          onClick={() => (step === 0 ? navigate("/") : goTo(step - 1))}
+          onClick={() => (step === 0 ? navigate('/') : goTo(step - 1))}
           className="btn-ghost"
         >
           <ArrowLeft size={16} aria-hidden="true" />
           Back
         </button>
         <button type="button" onClick={handleNext} className="btn-primary">
-          {step === 2 ? "See my results" : "Continue"}
+          {step === 2 ? 'See my results' : 'Continue'}
           <ArrowRight size={16} aria-hidden="true" />
         </button>
       </div>

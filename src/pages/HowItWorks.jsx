@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Calculator, AlertTriangle, Sparkles } from "lucide-react";
 import { branding } from "../config/branding";
+import { useSEO } from "../utils/seo";
 import {
   StepsOverview,
   CalculationExplainer,
@@ -30,6 +31,12 @@ const fadeUp = {
 };
 
 export default function HowItWorks() {
+  useSEO({
+    title: "How It Works",
+    description: "Learn how CorpusIQ calculates your retirement corpus, monthly income, and survival odds — with plain-language explanations of every assumption.",
+    path: "/how-it-works",
+  });
+
   return (
     <div className="mx-auto max-w-4xl">
       {/* Hero */}

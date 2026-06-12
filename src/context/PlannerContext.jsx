@@ -6,7 +6,7 @@ import { DEFAULT_STATE } from "./plannerState";
 // eslint-disable-next-line react-refresh/only-export-components
 export { validateProfile, hasAnyInvestment } from "./plannerState";
 
-const STORAGE_KEY = "wealth-planner-state-v1";
+const STORAGE_KEY = "corpus-iq-state-v1";
 
 function plannerReducer(state, action) {
   switch (action.type) {

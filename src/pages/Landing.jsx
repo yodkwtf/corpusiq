@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Clock, ShieldCheck, Sparkles, BookOpen, TrendingUp, IndianRupee, CalendarClock } from "lucide-react";
 import { branding } from "../config/branding";
 import { usePlanner } from "../context/PlannerContext";
+import { useSEO } from "../utils/seo";
 
 const FEATURES = [
   {
@@ -31,6 +32,7 @@ const PREVIEW_STATS = [
 export default function Landing() {
   const navigate = useNavigate();
   const { state } = usePlanner();
+  useSEO({ path: "/" });
 
   return (
     <div className="mx-auto max-w-5xl">

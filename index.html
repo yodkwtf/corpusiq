@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!--
+
+<head>
+  <meta charset="UTF-8" />
+  <!--
       Branding notes:
       - Favicon: replace public/favicon.svg to change the app icon.
       - The <title> and <meta name="description"> below are fallbacks for
@@ -10,37 +11,67 @@
         src/config/branding.js overwrites both from the branding config,
         so update branding.js (not this file) when rebranding.
     -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <meta
-      name="description"
-      content="Understand your retirement future in 3 minutes. Turn your NPS, PF and mutual fund numbers into plain-language insights. All calculations run in your browser."
-    />
-    <meta name="theme-color" content="#0F766E" />
-    <title>WealthPath - Understand your retirement future in 3 minutes</title>
-    <script>
-      // Apply the theme before first paint to avoid a light-mode flash.
-      // Explicit user choice (saved by the app) wins; otherwise follow the device.
-      try {
-        var saved = JSON.parse(localStorage.getItem("wealth-planner-state-v1"));
-        var dark =
-          saved && saved.ui && saved.ui.themeChosen
-            ? !!saved.ui.darkMode
-            : window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (dark) document.documentElement.classList.add("dark");
-      } catch (e) {
-        /* corrupted storage: fall back to light */
-      }
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <title>CorpusIQ - Understand your retirement future in 3 minutes</title>
+  <meta name="description"
+    content="Turn your NPS, PF and mutual fund numbers into a plain-language retirement story. Free, private, no sign-up. All calculations run in your browser." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0F766E" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CorpusIQ" />
+  <meta property="og:title" content="CorpusIQ - Understand your retirement future in 3 minutes" />
+  <meta property="og:description"
+    content="Turn your NPS, PF and mutual fund numbers into a plain-language retirement story. Free, private, no sign-up." />
+  <meta property="og:url" content="https://corpusiq.in" />
+  <meta property="og:image" content="https://corpusiq.in/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CorpusIQ - Understand your retirement future in 3 minutes" />
+  <meta name="twitter:description"
+    content="Turn your NPS, PF and mutual fund numbers into a plain-language retirement story. Free, private, no sign-up." />
+  <meta name="twitter:image" content="https://corpusiq.in/og-image.png" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CorpusIQ",
+      "url": "https://corpusiq.in",
+      "description": "Turn your NPS, PF and mutual fund numbers into a plain-language retirement story. Free, private, no sign-up.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+    }
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <script>
+    // Apply the theme before first paint to avoid a light-mode flash.
+    // Explicit user choice (saved by the app) wins; otherwise follow the device.
+    try {
+      var saved = JSON.parse(localStorage.getItem("corpus-iq-state-v1"));
+      var dark =
+        saved && saved.ui && saved.ui.themeChosen
+          ? !!saved.ui.darkMode
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (dark) document.documentElement.classList.add("dark");
+    } catch (e) {
+      /* corrupted storage: fall back to light */
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
