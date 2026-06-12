@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun, Mail, ExternalLink } from "lucide-react";
+import { Moon, Sun, ExternalLink } from "lucide-react";
 import Logo from "./Logo";
 import { branding } from "../../config/branding";
 import { usePlanner } from "../../context/PlannerContext";
@@ -88,30 +88,25 @@ export function Footer() {
               </div>
             )}
 
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
-                Contact
-              </p>
-              <a
-                href={`mailto:${branding.footer.contactEmail}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-2 hover:underline dark:text-primary"
-              >
-                <Mail size={13} aria-hidden="true" />
-                {branding.footer.contactEmail}
-              </a>
-              {socials.map(([key, url]) => (
-                <a
-                  key={key}
-                  href={url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
-                >
-                  {SOCIAL_LABELS[key] || key}
-                  <ExternalLink size={11} aria-hidden="true" />
-                </a>
-              ))}
-            </div>
+            {socials.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
+                  Contact
+                </p>
+                {socials.map(([key, url]) => (
+                  <a
+                    key={key}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
+                  >
+                    {SOCIAL_LABELS[key] || key}
+                    <ExternalLink size={11} aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
