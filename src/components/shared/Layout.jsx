@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, ExternalLink } from 'lucide-react';
+import { Moon, Sun, ExternalLink, ShieldCheck } from 'lucide-react';
 import Logo from './Logo';
 import { branding } from '../../config/branding';
 import { usePlanner } from '../../context/PlannerContext';
@@ -16,7 +16,7 @@ export function Navbar() {
   const location = useLocation();
 
   return (
-    <header className="print-hide sticky top-0 z-40 border-b border-ink-100 bg-surface/90 backdrop-blur dark:border-ink-800 dark:bg-surface-dark/90">
+    <header className="print-hide sticky top-0 z-40 border-b border-ink-100/80 bg-canvas/75 backdrop-blur-lg dark:border-ink-800/70 dark:bg-canvas-dark/75">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <Link
           to="/"
@@ -63,12 +63,12 @@ export function Footer() {
   const socials = Object.entries(branding.social).filter(([, url]) => url);
 
   return (
-    <footer className="print-hide mt-12 border-t border-ink-100 bg-surface dark:border-ink-800 dark:bg-surface-dark">
+    <footer className="print-hide mt-16 border-t border-ink-100/80 dark:border-ink-800/70">
       <div className="mx-auto max-w-6xl px-4">
         {/* Main row */}
-        <div className="flex flex-col gap-8 py-10 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-8 py-10 sm:flex-row sm:items-center sm:justify-between">
           {/* Brand side */}
-          <div className="max-w-xs space-y-2">
+          <div className="max-w-xs space-y-3">
             <Link
               to="/"
               aria-label={`${branding.appName} home`}
@@ -81,53 +81,52 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Links side */}
-          <div className="flex flex-wrap gap-x-10 gap-y-6">
-            {branding.footer.links.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
-                  Product
-                </p>
-                {branding.footer.links.map((link) => (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className="block text-sm font-medium text-primary underline-offset-2 hover:underline dark:text-primary"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            )}
+          {/* Links + socials */}
+          {(branding.footer.links.length > 0 || socials.length > 0) && (
+            <nav
+              aria-label="Footer"
+              className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:justify-end"
+            >
+              {branding.footer.links.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm font-medium text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {socials.map(([key, url]) => (
+                <a
+                  key={key}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
+                >
+                  {SOCIAL_LABELS[key] || key}
+                  <ExternalLink size={11} aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
 
-            {socials.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary dark:text-text-secondary-dark">
-                  Contact
-                </p>
-                {socials.map(([key, url]) => (
-                  <a
-                    key={key}
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
-                  >
-                    {SOCIAL_LABELS[key] || key}
-                    <ExternalLink size={11} aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
+        {/* Disclaimer */}
+        <div className="flex items-start gap-3 rounded-xl border border-ink-100 bg-surface/60 px-4 py-3 backdrop-blur dark:border-ink-800 dark:bg-surface-dark/50">
+          <ShieldCheck
+            size={16}
+            className="mt-0.5 shrink-0 text-primary"
+            aria-hidden="true"
+          />
+          <p className="text-xs leading-relaxed text-text-secondary dark:text-text-secondary-dark">
+            {branding.footer.disclaimer}
+          </p>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-ink-100 py-5 dark:border-ink-800">
-          <p className="mb-2 text-xs leading-relaxed text-text-secondary dark:text-text-secondary-dark">
-            {branding.footer.disclaimer}
-          </p>
-          <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
+        <div className="mt-6 border-t border-ink-100 py-5 dark:border-ink-800">
+          <p className="text-center text-xs text-text-secondary dark:text-text-secondary-dark sm:text-left">
             ©{new Date().getFullYear()} {branding.appName}. All rights reserved.
           </p>
         </div>
