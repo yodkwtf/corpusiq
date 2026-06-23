@@ -1,6 +1,6 @@
 # CorpusIQ
 
-Understand your retirement future in 3 minutes. Turn your NPS, PF and mutual fund numbers into a plain-language story - free, private, no sign-up.
+Understand your retirement future in 3 minutes. Turn your NPS, PF, and mutual fund numbers into a plain-language story - free, private, no sign-up.
 
 **Live:** https://corpusiq.netlify.app
 
