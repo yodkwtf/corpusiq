@@ -96,8 +96,15 @@ function loadInitialState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeWithDefaults(JSON.parse(raw));
-  } catch {
-    // corrupted storage - fall through to defaults
+  } catch (error) {
+    // Corrupted/unreadable storage: drop the bad payload so it can't keep
+    // throwing on every load, then fall through to defaults.
+    console.warn("Could not load saved planner state; using defaults.", error);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Storage unavailable entirely (e.g. private mode) - nothing to clean up.
+    }
   }
   return DEFAULT_STATE;
 }
@@ -111,8 +118,10 @@ export function PlannerProvider({ children }) {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // storage full / private mode - non-fatal
+    } catch (error) {
+      // Storage full or unavailable (e.g. private mode). Non-fatal: the app
+      // keeps working from in-memory state, it just won't survive a reload.
+      console.warn("Could not save planner state; changes won't persist.", error);
     }
   }, [state]);
 
@@ -128,8 +137,11 @@ export function PlannerProvider({ children }) {
   const projection = useMemo(() => {
     try {
       return computeProjection(state);
-    } catch {
-      return null; // ErrorBoundary-friendly: dashboard shows fallback
+    } catch (error) {
+      // A bad input combination broke the projection. Surface it for debugging
+      // and return null so the dashboard can render its fallback instead.
+      console.error("Projection failed for current inputs; showing fallback.", error);
+      return null;
     }
   }, [state]);
 

@@ -78,8 +78,10 @@ export default function WhatIfExplorer({ state, baseProjection }) {
     if (!isDirty) return baseProjection;
     try {
       return computeProjection(applyScenario(state, scenario));
-    } catch {
-      return baseProjection; // never let a slider extreme crash the page
+    } catch (error) {
+      // Never let a slider extreme crash the page - fall back to the base plan.
+      console.error("What-if scenario projection failed; showing base plan.", error);
+      return baseProjection;
     }
   }, [state, scenario, baseProjection, isDirty]);
 

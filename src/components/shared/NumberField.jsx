@@ -33,7 +33,7 @@ export default function NumberField({
           error ? "border-danger" : "border-ink-200 dark:border-ink-700"
         }`}
       >
-        {prefix && <span className="pl-3 text-sm text-ink-400">{prefix}</span>}
+        {prefix && <span className="shrink-0 pl-3 text-sm text-ink-400">{prefix}</span>}
         <input
           id={id}
           type="text"
@@ -45,9 +45,11 @@ export default function NumberField({
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
           onChange={(e) => onChange(sanitizeNumericInput(e.target.value, { allowDecimal, max }))}
-          className="no-spinner w-full bg-transparent px-3 py-2.5 text-sm outline-none"
+          className="no-spinner w-full min-w-0 bg-transparent px-3 py-2.5 text-sm outline-none"
         />
-        {suffix && <span className="pr-3 text-sm text-ink-400">{suffix}</span>}
+        {suffix && (
+          <span className="shrink-0 whitespace-nowrap pr-3 text-sm text-ink-400">{suffix}</span>
+        )}
       </div>
       {hint && !error && (
         <p className="mt-1 text-xs text-text-secondary dark:text-text-secondary-dark">{hint}</p>

@@ -55,9 +55,10 @@ export default function Dashboard() {
 
   // Guard: profile not filled in yet → send to input flow.
   useSEO({
-    title: "Your Retirement Dashboard",
-    description: "See your projected retirement corpus, monthly income, survival odds and what-if scenarios — all in plain language.",
-    path: "/dashboard",
+    title: 'Your Retirement Dashboard',
+    description:
+      'See your projected retirement corpus, monthly income, survival odds and what-if scenarios - all in plain language.',
+    path: '/dashboard',
   });
 
   const profileInvalid = Object.keys(validateProfile(state.profile)).length > 0;

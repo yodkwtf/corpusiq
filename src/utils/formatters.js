@@ -62,19 +62,31 @@ export function formatYears(value) {
 }
 
 function trimZeros(numStr) {
-  return numStr.replace(/\.?0+$/, "");
+  // Only trim trailing zeros in the fractional part ("7.10" -> "7.1",
+  // "9.00" -> "9"). Whole numbers must stay intact ("80" must not become "8").
+  return numStr.includes(".") ? numStr.replace(/\.?0+$/, "") : numStr;
 }
 
-/** Strip a typed/pasted value down to a non-negative number (or empty string). */
+/**
+ * Strip a typed/pasted value down to a non-negative numeric *string* (or "").
+ * Returns a string rather than a number so in-progress decimals stay editable:
+ * coercing "7." to the number 7 on every keystroke would drop the dot and make
+ * the field reject decimals entirely. Callers already coerce with Number()/num().
+ */
 export function sanitizeNumericInput(raw, { allowDecimal = true, max = 1e12 } = {}) {
   if (raw === "" || raw === null || raw === undefined) return "";
   let cleaned = String(raw).replace(allowDecimal ? /[^0-9.]/g : /[^0-9]/g, "");
   if (allowDecimal) {
-    const parts = cleaned.split(".");
-    if (parts.length > 2) cleaned = `${parts[0]}.${parts.slice(1).join("")}`;
+    // Keep only the first decimal point; fold any extra digits behind it.
+    const [intPart, ...rest] = cleaned.split(".");
+    cleaned = rest.length ? `${intPart}.${rest.join("")}` : intPart;
   }
   if (cleaned === "" || cleaned === ".") return "";
   const n = Number(cleaned);
   if (!Number.isFinite(n)) return "";
-  return Math.min(Math.max(n, 0), max);
+  // Clamp to max, but otherwise preserve the typed string (incl. a trailing "."
+  // or trailing zeros like "7.0") so partial decimal entry keeps working.
+  if (n > max) return String(max);
+  // Drop redundant leading zeros in the integer part ("07" -> "7", "0.5" stays).
+  return cleaned.replace(/^0+(?=\d)/, "");
 }

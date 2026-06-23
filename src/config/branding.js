@@ -48,7 +48,7 @@ export const branding = {
   footer: {
     disclaimer:
       'These are illustrative projections based on assumptions, not guaranteed returns. Consult a financial advisor for personalized advice.',
-    copyrightText: '© 2026 CorpusIQ. All rights reserved.',
+    copyrightText: `©${new Date().getFullYear()} CorpusIQ. All rights reserved.`,
     links: [{ label: 'How It Works', href: '/how-it-works' }],
   },
   social: {

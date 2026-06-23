@@ -73,7 +73,7 @@ export default function InputFlow() {
   const noInvestments = step === 1 && !hasAnyInvestment(state.investments);
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-4xl">
       {/* Progress */}
       <nav aria-label="Progress" className="mb-8">
         <ol className="flex items-center gap-2">

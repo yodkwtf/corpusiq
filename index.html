@@ -56,7 +56,9 @@
           : window.matchMedia("(prefers-color-scheme: dark)").matches;
       if (dark) document.documentElement.classList.add("dark");
     } catch (e) {
-      /* corrupted storage: fall back to light */
+      // Corrupted/unreadable storage: fall back to light. The app re-applies
+      // the correct theme once it mounts, so this only affects first paint.
+      console.warn("Theme bootstrap could not read saved state.", e);
     }
   </script>
 </head>

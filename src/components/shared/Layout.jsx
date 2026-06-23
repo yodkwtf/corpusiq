@@ -1,11 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun, ExternalLink } from "lucide-react";
-import Logo from "./Logo";
-import { branding } from "../../config/branding";
-import { usePlanner } from "../../context/PlannerContext";
+import { Link, useLocation } from 'react-router-dom';
+import { Moon, Sun, ExternalLink } from 'lucide-react';
+import Logo from './Logo';
+import { branding } from '../../config/branding';
+import { usePlanner } from '../../context/PlannerContext';
 
 // lucide-react no longer ships brand icons - social links render as labels.
-const SOCIAL_LABELS = { twitter: "Twitter / X", linkedin: "LinkedIn", instagram: "Instagram" };
+const SOCIAL_LABELS = {
+  twitter: 'Twitter / X',
+  linkedin: 'LinkedIn',
+  instagram: 'Instagram',
+};
 
 export function Navbar() {
   const { state, dispatch, isDark } = usePlanner();
@@ -14,14 +18,18 @@ export function Navbar() {
   return (
     <header className="print-hide sticky top-0 z-40 border-b border-ink-100 bg-surface/90 backdrop-blur dark:border-ink-800 dark:bg-surface-dark/90">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link to="/" aria-label={`${branding.appName} home`} className="text-text-primary dark:text-text-primary-dark">
+        <Link
+          to="/"
+          aria-label={`${branding.appName} home`}
+          className="text-text-primary dark:text-text-primary-dark"
+        >
           <Logo />
         </Link>
         <nav aria-label="Main" className="flex items-center gap-1 sm:gap-2">
           <Link
             to="/how-it-works"
             className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
-              location.pathname === "/how-it-works" ? "text-primary" : ""
+              location.pathname === '/how-it-works' ? 'text-primary' : ''
             }`}
           >
             <span className="hidden sm:inline">How It Works</span>
@@ -31,7 +39,7 @@ export function Navbar() {
             <Link
               to="/dashboard"
               className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
-                location.pathname === "/dashboard" ? "text-primary" : ""
+                location.pathname === '/dashboard' ? 'text-primary' : ''
               }`}
             >
               Dashboard
@@ -39,8 +47,8 @@ export function Navbar() {
           )}
           <button
             type="button"
-            onClick={() => dispatch({ type: "SET_DARK", value: !isDark })}
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={() => dispatch({ type: 'SET_DARK', value: !isDark })}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             className="rounded-lg p-2 transition-colors hover:bg-ink-100 dark:hover:bg-ink-800"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -61,7 +69,11 @@ export function Footer() {
         <div className="flex flex-col gap-8 py-10 sm:flex-row sm:items-start sm:justify-between">
           {/* Brand side */}
           <div className="max-w-xs space-y-2">
-            <Link to="/" aria-label={`${branding.appName} home`} className="text-text-primary dark:text-text-primary-dark">
+            <Link
+              to="/"
+              aria-label={`${branding.appName} home`}
+              className="text-text-primary dark:text-text-primary-dark"
+            >
               <Logo />
             </Link>
             <p className="text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
@@ -116,7 +128,7 @@ export function Footer() {
             {branding.footer.disclaimer}
           </p>
           <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
-            © {new Date().getFullYear()} {branding.appName}. All rights reserved.
+            ©{new Date().getFullYear()} {branding.appName}. All rights reserved.
           </p>
         </div>
       </div>
@@ -128,7 +140,9 @@ export default function Layout({ children }) {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">{children}</main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">
+        {children}
+      </main>
       <Footer />
     </div>
   );
