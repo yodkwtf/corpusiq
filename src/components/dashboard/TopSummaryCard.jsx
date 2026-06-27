@@ -54,11 +54,17 @@ export default function TopSummaryCard({ projection }) {
       {hasData && (
         <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-text-secondary dark:text-text-secondary-dark">
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-primary" aria-hidden="true" />
+            <span
+              className="h-2.5 w-2.5 rounded-full bg-primary"
+              aria-hidden="true"
+            />
             Contributions {formatPct(split.investedPct, 0)}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-secondary" aria-hidden="true" />
+            <span
+              className="h-2.5 w-2.5 rounded-full bg-secondary"
+              aria-hidden="true"
+            />
             Growth {formatPct(split.growthPct, 0)}
           </span>
           <Tooltip glossaryId="corpus" />
@@ -80,7 +86,11 @@ function Stat({ label, value, big = false, accent = false }) {
       <AnimatedNumber
         value={value}
         className={`mt-1 block font-bold tabular-nums ${
-          big ? "text-2xl text-primary sm:text-3xl" : accent ? "text-xl text-secondary sm:text-2xl" : "text-xl sm:text-2xl"
+          big
+            ? "text-2xl sm:text-3xl"
+            : accent
+              ? "text-xl text-secondary sm:text-2xl"
+              : "text-xl sm:text-2xl text-primary"
         }`}
       />
     </div>

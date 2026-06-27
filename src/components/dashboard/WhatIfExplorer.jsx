@@ -25,25 +25,33 @@ const DEFAULT_SCENARIO = {
 function applyScenario(state, s) {
   const currentAge = Number(state.profile.currentAge) || 0;
   const retirementAge = Math.min(
-    Math.max((Number(state.profile.retirementAge) || 60) + s.retireShiftYears, currentAge),
-    100
+    Math.max(
+      (Number(state.profile.retirementAge) || 60) + s.retireShiftYears,
+      currentAge,
+    ),
+    100,
   );
 
   const investments = {};
   const keys = ["nps", "pf", "mf"];
   const totalSip = keys.reduce(
     (acc, k) => acc + (Number(state.investments[k].monthlyContribution) || 0),
-    0
+    0,
   );
 
   for (const k of keys) {
     let currentValue = Number(state.investments[k].currentValue) || 0;
-    let monthlyContribution = Number(state.investments[k].monthlyContribution) || 0;
+    let monthlyContribution =
+      Number(state.investments[k].monthlyContribution) || 0;
 
     // Distribute the SIP delta proportionally; if no SIPs exist, add it to MF.
     if (s.sipDelta !== 0) {
-      const share = totalSip > 0 ? monthlyContribution / totalSip : k === "mf" ? 1 : 0;
-      monthlyContribution = Math.max(monthlyContribution + s.sipDelta * share, 0);
+      const share =
+        totalSip > 0 ? monthlyContribution / totalSip : k === "mf" ? 1 : 0;
+      monthlyContribution = Math.max(
+        monthlyContribution + s.sipDelta * share,
+        0,
+      );
     }
     if (s.stopInvesting || s.mode === "lumpOnly") monthlyContribution = 0;
     if (s.withdrawNow || s.mode === "sipOnly") currentValue = 0;
@@ -58,7 +66,10 @@ function applyScenario(state, s) {
       pf: (Number(state.assumptions.returns.pf) || 0) + s.returnsShift,
       mf: (Number(state.assumptions.returns.mf) || 0) + s.returnsShift,
     },
-    inflationPct: Math.max((Number(state.assumptions.inflationPct) || 0) + s.inflationShift, 0),
+    inflationPct: Math.max(
+      (Number(state.assumptions.inflationPct) || 0) + s.inflationShift,
+      0,
+    ),
     contributionDelayYears: s.delayStartYears,
   };
 
@@ -80,7 +91,10 @@ export default function WhatIfExplorer({ state, baseProjection }) {
       return computeProjection(applyScenario(state, scenario));
     } catch (error) {
       // Never let a slider extreme crash the page - fall back to the base plan.
-      console.error("What-if scenario projection failed; showing base plan.", error);
+      console.error(
+        "What-if scenario projection failed; showing base plan.",
+        error,
+      );
       return baseProjection;
     }
   }, [state, scenario, baseProjection, isDirty]);
@@ -99,7 +113,13 @@ export default function WhatIfExplorer({ state, baseProjection }) {
           min={-10}
           max={10}
           onChange={set("retireShiftYears")}
-          formatValue={(v) => (v === 0 ? "as planned" : v > 0 ? `+${v} yrs later` : `${v} yrs earlier`)}
+          formatValue={(v) =>
+            v === 0
+              ? "as planned"
+              : v > 0
+                ? `+${v} yrs later`
+                : `${v} yrs earlier`
+          }
         />
         <Slider
           label="Change monthly SIP"
@@ -108,7 +128,11 @@ export default function WhatIfExplorer({ state, baseProjection }) {
           max={1000000}
           step={5000}
           onChange={set("sipDelta")}
-          formatValue={(v) => (v === 0 ? "no change" : `${v > 0 ? "+" : "-"}${formatINR(Math.abs(v))}/mo`)}
+          formatValue={(v) =>
+            v === 0
+              ? "no change"
+              : `${v > 0 ? "+" : "-"}${formatINR(Math.abs(v))}/mo`
+          }
           disabled={scenario.stopInvesting || scenario.mode === "lumpOnly"}
         />
         <Slider
@@ -118,7 +142,9 @@ export default function WhatIfExplorer({ state, baseProjection }) {
           max={4}
           step={0.5}
           onChange={set("returnsShift")}
-          formatValue={(v) => (v === 0 ? "as assumed" : `${v > 0 ? "+" : ""}${v}% pts`)}
+          formatValue={(v) =>
+            v === 0 ? "as assumed" : `${v > 0 ? "+" : ""}${v}% pts`
+          }
         />
         <Slider
           label="Inflation"
@@ -135,7 +161,9 @@ export default function WhatIfExplorer({ state, baseProjection }) {
           min={0}
           max={10}
           onChange={set("delayStartYears")}
-          formatValue={(v) => (v === 0 ? "start now" : `${v} year${v > 1 ? "s" : ""}`)}
+          formatValue={(v) =>
+            v === 0 ? "start now" : `${v} year${v > 1 ? "s" : ""}`
+          }
           disabled={scenario.stopInvesting || scenario.mode === "lumpOnly"}
         />
         <div className="flex flex-wrap items-end gap-2">
@@ -153,13 +181,17 @@ export default function WhatIfExplorer({ state, baseProjection }) {
           </Toggle>
           <Toggle
             active={scenario.mode === "lumpOnly"}
-            onClick={() => set("mode")(scenario.mode === "lumpOnly" ? "both" : "lumpOnly")}
+            onClick={() =>
+              set("mode")(scenario.mode === "lumpOnly" ? "both" : "lumpOnly")
+            }
           >
             Lump sum only
           </Toggle>
           <Toggle
             active={scenario.mode === "sipOnly"}
-            onClick={() => set("mode")(scenario.mode === "sipOnly" ? "both" : "sipOnly")}
+            onClick={() =>
+              set("mode")(scenario.mode === "sipOnly" ? "both" : "sipOnly")
+            }
           >
             SIP only
           </Toggle>
@@ -171,9 +203,15 @@ export default function WhatIfExplorer({ state, baseProjection }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-ink-50 text-left text-xs uppercase tracking-wide text-text-secondary dark:bg-ink-800/50 dark:text-text-secondary-dark">
-              <th scope="col" className="px-4 py-2.5 font-semibold">Metric</th>
-              <th scope="col" className="px-4 py-2.5 font-semibold">Current plan</th>
-              <th scope="col" className="px-4 py-2.5 font-semibold">This scenario</th>
+              <th scope="col" className="px-4 py-2.5 font-semibold">
+                Metric
+              </th>
+              <th scope="col" className="px-4 py-2.5 font-semibold">
+                Current plan
+              </th>
+              <th scope="col" className="px-4 py-2.5 font-semibold">
+                This scenario
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -181,28 +219,37 @@ export default function WhatIfExplorer({ state, baseProjection }) {
               label="Corpus at retirement"
               before={formatINR(baseProjection.totalCorpus)}
               after={formatINR(scenarioProjection.totalCorpus)}
-              better={scenarioProjection.totalCorpus >= baseProjection.totalCorpus}
+              better={
+                scenarioProjection.totalCorpus >= baseProjection.totalCorpus
+              }
               changed={isDirty}
             />
             <CompareRow
               label="Monthly income"
               before={`${formatINR(baseProjection.monthlyRetirementIncome)}/mo`}
               after={`${formatINR(scenarioProjection.monthlyRetirementIncome)}/mo`}
-              better={scenarioProjection.monthlyRetirementIncome >= baseProjection.monthlyRetirementIncome}
+              better={
+                scenarioProjection.monthlyRetirementIncome >=
+                baseProjection.monthlyRetirementIncome
+              }
               changed={isDirty}
             />
             <CompareRow
               label="Money lasts until"
               before={ageLabel(baseProjection)}
               after={ageLabel(scenarioProjection)}
-              better={scenarioProjection.depletionAge >= baseProjection.depletionAge}
+              better={
+                scenarioProjection.depletionAge >= baseProjection.depletionAge
+              }
               changed={isDirty}
             />
             <CompareRow
               label="Health score"
               before={`${baseProjection.health.score}/100`}
               after={`${scenarioProjection.health.score}/100`}
-              better={scenarioProjection.health.score >= baseProjection.health.score}
+              better={
+                scenarioProjection.health.score >= baseProjection.health.score
+              }
               changed={isDirty}
             />
           </tbody>
@@ -212,14 +259,18 @@ export default function WhatIfExplorer({ state, baseProjection }) {
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
           {isDirty
-            ? explainWhatIfDelta("This scenario", baseProjection.totalCorpus, scenarioProjection.totalCorpus)
+            ? explainWhatIfDelta(
+                "This scenario",
+                baseProjection.totalCorpus,
+                scenarioProjection.totalCorpus,
+              )
             : "Adjust any lever above to compare against your current plan."}
         </p>
         {isDirty && (
           <button
             type="button"
             onClick={() => setScenario(DEFAULT_SCENARIO)}
-            className="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-semibold text-primary hover:bg-primary/10"
+            className="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-semibold text-secondary hover:bg-secondary/10"
           >
             <RotateCcw size={14} aria-hidden="true" />
             Reset scenario
@@ -232,7 +283,8 @@ export default function WhatIfExplorer({ state, baseProjection }) {
 
 function ageLabel(projection) {
   const age = projection.depletionAge;
-  if (projection.longevityAtPlannedSpend.lastsForever || age >= 100) return "100+ (lifelong)";
+  if (projection.longevityAtPlannedSpend.lastsForever || age >= 100)
+    return "100+ (lifelong)";
   return `age ${Math.round(age)}`;
 }
 
@@ -256,13 +308,19 @@ function Toggle({ active, onClick, children }) {
 function CompareRow({ label, before, after, better, changed }) {
   return (
     <tr className="border-t border-ink-100 dark:border-ink-800">
-      <th scope="row" className="px-4 py-2.5 text-left font-medium">{label}</th>
-      <td className="px-4 py-2.5 tabular-nums text-text-secondary dark:text-text-secondary-dark">{before}</td>
+      <th scope="row" className="px-4 py-2.5 text-left font-medium">
+        {label}
+      </th>
+      <td className="px-4 py-2.5 tabular-nums text-text-secondary dark:text-text-secondary-dark">
+        {before}
+      </td>
       <td className="px-4 py-2.5">
         <span className="inline-flex items-center gap-2 font-semibold tabular-nums">
           {after}
           {changed && before !== after && (
-            <Badge tone={better ? "onTrack" : "atRisk"}>{better ? "▲" : "▼"}</Badge>
+            <Badge tone={better ? "onTrack" : "atRisk"}>
+              {better ? "▲" : "▼"}
+            </Badge>
           )}
         </span>
       </td>

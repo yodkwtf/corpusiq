@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSEO } from '../utils/seo';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSEO } from "../utils/seo";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -9,29 +9,29 @@ import {
   PiggyBank,
   LineChart,
   Sparkles,
-} from 'lucide-react';
-import AboutYouForm from '../components/forms/AboutYouForm';
-import InvestmentCard from '../components/forms/InvestmentCard';
-import AdvancedSettings from '../components/forms/AdvancedSettings';
+} from "lucide-react";
+import AboutYouForm from "../components/forms/AboutYouForm";
+import InvestmentCard from "../components/forms/InvestmentCard";
+import AdvancedSettings from "../components/forms/AdvancedSettings";
 import {
   usePlanner,
   validateProfile,
   hasAnyInvestment,
-} from '../context/PlannerContext';
+} from "../context/PlannerContext";
 
 const STEPS = [
   {
-    title: 'About you',
+    title: "About you",
     subtitle: "Two ages and an optional income. That's all we need.",
   },
   {
-    title: 'Your investments',
-    subtitle: 'Enter what you have today. Zero is a fine answer.',
+    title: "Your investments",
+    subtitle: "Enter what you have today. Zero is a fine answer.",
   },
   {
-    title: 'Fine-tune (optional)',
+    title: "Fine-tune (optional)",
     subtitle:
-      'Industry-standard assumptions. Adjust if you like, or just continue.',
+      "Industry-standard assumptions. Adjust if you like, or just continue.",
   },
 ];
 
@@ -39,7 +39,7 @@ const slide = {
   initial: { opacity: 0, x: 32 },
   animate: { opacity: 1, x: 0 },
   exit: { opacity: 0, x: -32 },
-  transition: { duration: 0.25, ease: 'easeOut' },
+  transition: { duration: 0.25, ease: "easeOut" },
 };
 
 export default function InputFlow() {
@@ -47,14 +47,14 @@ export default function InputFlow() {
   const navigate = useNavigate();
   const step = state.ui.inputStep;
   useSEO({
-    title: 'Build Your Plan',
+    title: "Build Your Plan",
     description:
-      'Enter your age, income and investments to get a personalized retirement projection in under 3 minutes.',
-    path: '/plan',
+      "Enter your age, income and investments to get a personalized retirement projection in under 3 minutes.",
+    path: "/plan",
   });
   const [errors, setErrors] = useState({});
 
-  const goTo = (next) => dispatch({ type: 'SET_STEP', step: next });
+  const goTo = (next) => dispatch({ type: "SET_STEP", step: next });
 
   const handleNext = () => {
     if (step === 0) {
@@ -65,8 +65,8 @@ export default function InputFlow() {
     if (step < 2) {
       goTo(step + 1);
     } else {
-      dispatch({ type: 'MARK_RESULTS' });
-      navigate('/dashboard');
+      dispatch({ type: "MARK_RESULTS" });
+      navigate("/dashboard");
     }
   };
 
@@ -83,17 +83,17 @@ export default function InputFlow() {
                 type="button"
                 onClick={() => i < step && goTo(i)}
                 disabled={i > step}
-                aria-current={i === step ? 'step' : undefined}
+                aria-current={i === step ? "step" : undefined}
                 className={`h-1.5 w-full rounded-full transition-colors ${
-                  i <= step ? 'bg-primary' : 'bg-ink-200 dark:bg-ink-700'
-                } ${i < step ? 'cursor-pointer' : ''}`}
+                  i <= step ? "bg-primary" : "bg-ink-200 dark:bg-ink-700"
+                } ${i < step ? "cursor-pointer" : ""}`}
                 aria-label={`Step ${i + 1}: ${s.title}`}
               />
               <span
                 className={`hidden text-xs font-medium sm:block ${
                   i === step
-                    ? 'text-primary'
-                    : 'text-text-secondary dark:text-text-secondary-dark'
+                    ? "text-primary"
+                    : "text-text-secondary dark:text-text-secondary-dark"
                 }`}
               >
                 {s.title}
@@ -159,14 +159,14 @@ export default function InputFlow() {
       <div className="mt-8 flex items-center justify-between">
         <button
           type="button"
-          onClick={() => (step === 0 ? navigate('/') : goTo(step - 1))}
+          onClick={() => (step === 0 ? navigate("/") : goTo(step - 1))}
           className="btn-ghost"
         >
           <ArrowLeft size={16} aria-hidden="true" />
           Back
         </button>
         <button type="button" onClick={handleNext} className="btn-primary">
-          {step === 2 ? 'See my results' : 'Continue'}
+          {step === 2 ? "See my results" : "Continue"}
           <ArrowRight size={16} aria-hidden="true" />
         </button>
       </div>

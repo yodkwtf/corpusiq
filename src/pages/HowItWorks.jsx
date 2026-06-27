@@ -1,19 +1,19 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
   Calculator,
   AlertTriangle,
   Sparkles,
-} from 'lucide-react';
-import { branding } from '../config/branding';
-import { useSEO } from '../utils/seo';
+} from "lucide-react";
+import { branding } from "../config/branding";
+import { useSEO } from "../utils/seo";
 import {
   StepsOverview,
   CalculationExplainer,
   GlossaryList,
-} from '../components/shared/HowItWorksContent';
+} from "../components/shared/HowItWorksContent";
 
 function SectionHeader({ icon: Icon, kicker, title, id }) {
   return (
@@ -32,16 +32,16 @@ function SectionHeader({ icon: Icon, kicker, title, id }) {
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.45, ease: 'easeOut' },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.45, ease: "easeOut" },
 };
 
 export default function HowItWorks() {
   useSEO({
-    title: 'How It Works',
+    title: "How It Works",
     description:
-      'Learn how CorpusIQ calculates your retirement corpus, monthly income, and survival odds - with plain-language explanations of every assumption.',
-    path: '/how-it-works',
+      "Learn how CorpusIQ calculates your retirement corpus, monthly income, and survival odds - with plain-language explanations of every assumption.",
+    path: "/how-it-works",
   });
 
   return (

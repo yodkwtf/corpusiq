@@ -1,15 +1,8 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, ExternalLink, ShieldCheck } from 'lucide-react';
-import Logo from './Logo';
-import { branding } from '../../config/branding';
-import { usePlanner } from '../../context/PlannerContext';
-
-// lucide-react no longer ships brand icons - social links render as labels.
-const SOCIAL_LABELS = {
-  twitter: 'Twitter / X',
-  linkedin: 'LinkedIn',
-  instagram: 'Instagram',
-};
+import { Link, useLocation } from "react-router-dom";
+import { Moon, Sun, ShieldCheck, Heart } from "lucide-react";
+import Logo from "./Logo";
+import { branding } from "../../config/branding";
+import { usePlanner } from "../../context/PlannerContext";
 
 export function Navbar() {
   const { state, dispatch, isDark } = usePlanner();
@@ -29,7 +22,7 @@ export function Navbar() {
           <Link
             to="/how-it-works"
             className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
-              location.pathname === '/how-it-works' ? 'text-primary' : ''
+              location.pathname === "/how-it-works" ? "text-primary" : ""
             }`}
           >
             <span className="hidden sm:inline">How It Works</span>
@@ -39,7 +32,7 @@ export function Navbar() {
             <Link
               to="/dashboard"
               className={`rounded-lg px-2 py-1.5 text-sm font-medium transition-colors hover:bg-ink-100 dark:hover:bg-ink-800 sm:px-3 ${
-                location.pathname === '/dashboard' ? 'text-primary' : ''
+                location.pathname === "/dashboard" ? "text-primary" : ""
               }`}
             >
               Dashboard
@@ -47,8 +40,8 @@ export function Navbar() {
           )}
           <button
             type="button"
-            onClick={() => dispatch({ type: 'SET_DARK', value: !isDark })}
-            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={() => dispatch({ type: "SET_DARK", value: !isDark })}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
             className="rounded-lg p-2 transition-colors hover:bg-ink-100 dark:hover:bg-ink-800"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -60,74 +53,74 @@ export function Navbar() {
 }
 
 export function Footer() {
-  const socials = Object.entries(branding.social).filter(([, url]) => url);
-
   return (
-    <footer className="print-hide mt-16 border-t border-ink-100/80 dark:border-ink-800/70">
+    <footer className="print-hide mt-24 border-t border-ink-100 bg-gradient-to-b from-transparent to-surface/70 dark:border-ink-800 dark:to-surface-dark/70">
       <div className="mx-auto max-w-6xl px-4">
-        {/* Main row */}
-        <div className="flex flex-col gap-8 py-10 sm:flex-row sm:items-center sm:justify-between">
-          {/* Brand side */}
-          <div className="max-w-xs space-y-3">
+        {/* Main Content */}
+        <div className="grid gap-12 py-16 md:grid-cols-[1fr_1fr]">
+          {/* Brand */}
+          <div className="space-y-5">
             <Link
               to="/"
               aria-label={`${branding.appName} home`}
-              className="text-text-primary dark:text-text-primary-dark"
+              className="inline-block transition-opacity hover:opacity-80"
             >
               <Logo />
             </Link>
-            <p className="text-sm leading-relaxed text-text-secondary dark:text-text-secondary-dark">
+
+            <p className="max-w-sm text-sm leading-7 text-text-secondary dark:text-text-secondary-dark">
               {branding.tagline}
             </p>
           </div>
 
-          {/* Links + socials */}
-          {(branding.footer.links.length > 0 || socials.length > 0) && (
-            <nav
-              aria-label="Footer"
-              className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:justify-end"
-            >
+          {/* Navigation */}
+          <div className="justify-self-start md:justify-self-end">
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider text-text-primary dark:text-text-primary-dark">
+              Navigation
+            </h3>
+
+            <nav className="space-y-3">
               {branding.footer.links.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="text-sm font-medium text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
+                  className="block text-sm text-text-secondary transition-all duration-200 hover:translate-x-1 hover:text-primary dark:text-text-secondary-dark"
                 >
                   {link.label}
                 </Link>
               ))}
-              {socials.map(([key, url]) => (
-                <a
-                  key={key}
-                  href={url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-text-secondary transition-colors hover:text-primary dark:text-text-secondary-dark dark:hover:text-primary"
-                >
-                  {SOCIAL_LABELS[key] || key}
-                  <ExternalLink size={11} aria-hidden="true" />
-                </a>
-              ))}
             </nav>
-          )}
+          </div>
         </div>
 
         {/* Disclaimer */}
-        <div className="flex items-start gap-3 rounded-xl border border-ink-100 bg-surface/60 px-4 py-3 backdrop-blur dark:border-ink-800 dark:bg-surface-dark/50">
-          <ShieldCheck
-            size={16}
-            className="mt-0.5 shrink-0 text-primary"
-            aria-hidden="true"
-          />
-          <p className="text-xs leading-relaxed text-text-secondary dark:text-text-secondary-dark">
-            {branding.footer.disclaimer}
-          </p>
+        <div className="rounded-2xl border border-primary/15 bg-primary/5 p-5 dark:border-primary/20 dark:bg-primary/10">
+          <div className="flex items-start gap-4">
+            <ShieldCheck size={20} className="mt-0.5 shrink-0 text-primary" />
+
+            <div>
+              <h4 className="font-medium text-text-primary dark:text-text-primary-dark">
+                Educational Disclaimer
+              </h4>
+
+              <p className="mt-2 text-sm leading-6 text-text-secondary dark:text-text-secondary-dark">
+                {branding.footer.disclaimer}
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-6 border-t border-ink-100 py-5 dark:border-ink-800">
-          <p className="text-center text-xs text-text-secondary dark:text-text-secondary-dark sm:text-left">
-            ©{new Date().getFullYear()} {branding.appName}. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-ink-100 py-6 text-sm dark:border-ink-800 md:flex-row">
+          <p className="text-text-secondary dark:text-text-secondary-dark">
+            © {new Date().getFullYear()} {branding.appName}. All rights
+            reserved.
+          </p>
+
+          <p className="flex items-center gap-1 text-text-secondary dark:text-text-secondary-dark">
+            Made with
+            <Heart size={14} className="fill-red-500 text-red-500" />
+            for better retirement planning.
           </p>
         </div>
       </div>

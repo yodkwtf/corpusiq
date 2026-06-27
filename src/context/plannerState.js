@@ -15,13 +15,28 @@ export const DEFAULT_STATE = {
     mf: { currentValue: "", monthlyContribution: "" },
   },
   assumptions: {
-    returns: { nps: 9, pf: 7.1, mf: 12 },
-    stepUpPct: 5,
+    // Expected long-term annual returns (%)
+    returns: {
+      nps: 10, // Equity-heavy NPS allocation
+      pf: 8.25, // Current EPF interest rate
+      mf: 12, // Diversified equity mutual funds
+    },
+
+    // Salary / SIP increase every year (%)
+    stepUpPct: 8,
+
+    // Long-term average inflation (%)
     inflationPct: 6,
+
+    // Safe Withdrawal Rate (%)
     withdrawalRatePct: 4,
-    npsAnnuityPct: 40,
-    annuityRatePct: 6,
-    postRetirementReturnPct: 7,
+
+    // NPS
+    npsAnnuityPct: 40, // Minimum mandatory annuity at retirement
+    annuityRatePct: 6, // Expected annuity payout
+
+    // Portfolio return after retirement
+    postRetirementReturnPct: 8,
   },
   ui: {
     darkMode: null, // null = follow the device's color scheme
@@ -48,7 +63,8 @@ export function validateProfile(profile) {
   } else if (retAge < 18 || retAge > 100) {
     errors.retirementAge = "Retirement age must be between 18 and 100.";
   } else if (Number.isFinite(age) && retAge <= age) {
-    errors.retirementAge = "Retirement age must be greater than your current age.";
+    errors.retirementAge =
+      "Retirement age must be greater than your current age.";
   }
 
   return errors;
@@ -57,6 +73,7 @@ export function validateProfile(profile) {
 /** True when any investment field is non-zero - drives the empty state. */
 export function hasAnyInvestment(investments) {
   return Object.values(investments).some(
-    (inv) => Number(inv.currentValue) > 0 || Number(inv.monthlyContribution) > 0
+    (inv) =>
+      Number(inv.currentValue) > 0 || Number(inv.monthlyContribution) > 0,
   );
 }
