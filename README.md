@@ -62,5 +62,5 @@ A few things to know:
 ## Contact
 
 - **Email:** [48durgesh.chaudhary@gmail.com](mailto:48durgesh.chaudhary@gmail.com)
-- **LinkedIn:** [Durgesh Chaudhary](https://www.linkedin.com/in/durgesh-chaudhary/)
+- **LinkedIn:** [Durgesh Chaudhary](https://www.linkedin.com/in/durgesh-chaudhary)
 - **GitHub:** [@yodkwtf](https://github.com/yodkwtf)
